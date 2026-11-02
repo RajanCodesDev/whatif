@@ -1,0 +1,18 @@
+Inspect the existing `claude-animated-shorts` skill and replace its ElevenLabs text-to-speech dependency with locally hosted Chatterbox TTS.
+
+Requirements:
+
+1. Read `SKILL.md`, all relevant audio scripts, configuration files, and the existing ElevenLabs integration before changing anything.
+2. Identify every ElevenLabs dependency used for narration. Distinguish narration from music and sound effects; do not break existing audio assets or unrelated integrations.
+3. Implement a local Chatterbox TTS adapter that accepts narration text and writes audio to the exact path and format expected by the existing pipeline.
+4. Prefer running Chatterbox as a persistent local HTTP service rather than loading the model for every line. Keep model inference isolated in its own Python environment.
+5. Preserve the current scene generation, shot planning, Remotion rendering, audio mixing, ducking, loudness normalization, and final export workflow.
+6. Add configuration for the TTS backend (`chatterbox` or `elevenlabs`) so I can switch providers without editing source code.
+7. Handle long narration, audio duration, sample rate, stereo/mono conversion, errors, timeouts, and missing model dependencies safely. Do not silently produce empty audio files.
+8. Add a smoke test that generates a short narration, validates the output file, and confirms that the existing render pipeline can consume it.
+9. Keep changes minimal and document installation, model download, startup, configuration, and troubleshooting.
+10. Never print, commit, overwrite, or expose my ElevenLabs API key. Do not remove the existing ElevenLabs implementation until the Chatterbox path has passed its tests.
+
+First report the current audio pipeline and the files you intend to change. Then implement the smallest working change, run available tests, and report the exact commands needed to generate a short.
+
+Use the official Chatterbox implementation: https://github.com/resemble-ai/chatterbox. Do not invent Python APIs; verify the installed version's interface.
